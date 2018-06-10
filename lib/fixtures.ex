@@ -1,9 +1,11 @@
 defmodule Fixtures do
 
   def run() do
+    IO.puts("#{DateTime.utc_now}")
     DB.create_tables()
     populate_experiments()
-    populate_allocations()
+    populate_assignments()
+    IO.puts("#{DateTime.utc_now}")
     # {:ok, "Done"}
   end
 
@@ -29,13 +31,13 @@ defmodule Fixtures do
 
   end
 
-  def populate_allocations() do
+  def populate_assignments() do
     variants = [%DB.Variant{name: "variant_4", allocation: 20, is_control: false}]
     exp = %DB.Experiment{name: "experiment_00", sampling: 25, variants: variants, start_date: DateTime.utc_now, end_date: DateTime.utc_now}
 
-    1..100000
+    1..100_000
     |> Stream.map(&(to_string(&1)))
-    |> Stream.map(&(DB.put_allocation(&1, exp)))
+    |> Stream.map(&(DB.put_assignment(&1, exp)))
     |> Enum.reduce(0, fn(_x, acc) -> 1 + acc end)
 
   end

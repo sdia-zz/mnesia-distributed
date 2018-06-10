@@ -52,16 +52,16 @@ defmodule DB do
      defstruct @enforce_keys ++ @other_keys
    end
 
-   defmodule Allocation do
-     @type t :: %Allocation{
+   defmodule Assignment do
+     @type t :: %Assignment{
        hash_id: String.t,
        user_id: String.t,
        experiment_name: String.t,
        variant: String.t,
-       allocation_date: DateTime
+       assign_date: DateTime
      }
 
-     @enforce_keys [:hash_id, :user_id, :experiment_name, :variant, :allocation_date]
+     @enforce_keys [:hash_id, :user_id, :experiment_name, :variant, :assign_date]
      @other_keys []
 
      defstruct @enforce_keys ++ @other_keys
@@ -71,7 +71,7 @@ defmodule DB do
   def create_tables do
     :lbm_kv.create(Experiment)
     :lbm_kv.create(Exclusion)
-    :lbm_kv.create(Allocation)
+    :lbm_kv.create(Assignment)
   end
 
 
@@ -149,14 +149,14 @@ defmodule DB do
 
 
   ## ALLOCATION
-  @spec put_allocation(String.t, Experiment.t) :: {:ok, [{key(), Allocation.t}]} | {:error, any()}
-  def put_allocation(user_id, exp) do
-    ## @type t :: %Allocation{
+  @spec put_assignment(String.t, Experiment.t) :: {:ok, [{key(), Assignment.t}]} | {:error, any()}
+  def put_assignment(user_id, exp) do
+    ## @type t :: %Assignment{
     ##   hash_id: String.t,
     ##   user_id: String.t,
     ##   experiment_name: String.t,
     ##   variant: String.t,
-    ##   allocation_date: DateTime
+    ##   assign_date: DateTime
     ## }
 
     #@TODO:
@@ -165,26 +165,26 @@ defmodule DB do
 
     hash_id = "#{user_id}#{exp.name}" |> get_hash
 
-    alloc = %Allocation{
+    alloc = %Assignment{
       hash_id: hash_id,
       user_id: user_id,
       experiment_name: exp.name,
       variant: alloc_variant,
-      allocation_date: DateTime.utc_now
+      assign_date: DateTime.utc_now
     }
 
-    :lbm_kv.put(Allocation, hash_id, alloc)
+    :lbm_kv.put(Assignment, hash_id, alloc)
   end
 
-  @spec get_allocation(key(), Experiment.t) :: {:ok, [{key(), Allocation.t}]} | {:error, any()}
-  def get_allocation(user_id, exp) do
+  @spec get_assignment(key(), Experiment.t) :: {:ok, [{key(), Assignment.t}]} | {:error, any()}
+  def get_assignment(user_id, exp) do
     hash_id = "#{user_id}#{exp.name}" |> get_hash
-    :lbm_kv.get(Allocation, hash_id)
+    :lbm_kv.get(Assignment, hash_id)
   end
 
-  @spec del_allocation(key() | [key()]) :: {:ok, [{key(), Allocation.t}]} | {:error, any()}
-  def del_allocation(key_or_keys) do
-    :lbm_kv.del(Allocation, key_or_keys)
+  @spec del_assignment(key() | [key()]) :: {:ok, [{key(), Assignment.t}]} | {:error, any()}
+  def del_assignment(key_or_keys) do
+    :lbm_kv.del(Assignment, key_or_keys)
   end
 
 end
