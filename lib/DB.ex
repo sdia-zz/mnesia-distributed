@@ -1,6 +1,5 @@
 defmodule DB do
 
-
   @type key :: String.t
 
   defmodule Variant do
@@ -147,7 +146,6 @@ defmodule DB do
     }
   end
 
-
   ## ALLOCATION
   @spec put_assignment(String.t, Experiment.t) :: {:ok, [{key(), Assignment.t}]} | {:error, any()}
   def put_assignment(user_id, exp) do
@@ -172,7 +170,6 @@ defmodule DB do
       variant: alloc_variant,
       assign_date: DateTime.utc_now
     }
-
     :lbm_kv.put(Assignment, hash_id, alloc)
   end
 
@@ -186,5 +183,4 @@ defmodule DB do
   def del_assignment(key_or_keys) do
     :lbm_kv.del(Assignment, key_or_keys)
   end
-
 end
