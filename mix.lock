@@ -1,0 +1,5 @@
+%{
+  "lbm_kv": {:git, "https://github.com/sdia/lbm_kv", "bb959858a62cd0daaf31e168ebc8ac2a7e14ada9", [ref: "bb959858a6"]},
+  "libm_kv": {:git, "https://github.com/lindenbaum/lbm_kv", "ab0364417a18322f0d155af205fd3fe2104c09a3", [tag: "0.0.2"]},
+  "proper": {:git, "https://github.com/manopapad/proper.git", "5f0d69c831b6c9f52535c3d1846efca480f6190d", [tag: "v1.2"]},
+}
